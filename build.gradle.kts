@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "io.github.ChindeaYTB"
-version = "1.0.4"
+version = "1.0.5"
 
 repositories {
     mavenCentral()
@@ -28,10 +28,9 @@ tasks.jar {
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
 }
 
-// TASK: Create `updater.jar` separately
 val updaterJar = tasks.register<Jar>("updaterJar") {
     archiveFileName.set("updater.jar")
-    destinationDirectory.set(layout.buildDirectory.dir("libs")) // Ensure it is placed inside `build/libs`
+    destinationDirectory.set(layout.buildDirectory.dir("libs"))
     from(sourceSets.main.get().output)
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
     manifest {
@@ -39,14 +38,13 @@ val updaterJar = tasks.register<Jar>("updaterJar") {
     }
 }
 
-// Ensure `updaterJar` is built before the main `jar`
 tasks.build {
     dependsOn(updaterJar)
 }
 
 tasks.jar {
-    dependsOn(updaterJar) // Ensure updater.jar is ready before packaging
-    doFirst { // Ensure the file exists before adding it
+    dependsOn(updaterJar)
+    doFirst {
         val updaterJarFile = updaterJar.get().archiveFile.get().asFile
         if (!updaterJarFile.exists()) {
             throw GradleException("Updater JAR was not built successfully.")
@@ -62,7 +60,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "io.github.ChindeaYTB"
             artifactId = "modrinthautoupdater"
-            version = "1.0.4"
+            version = "1.0.5"
 
             from(components["java"])
         }
