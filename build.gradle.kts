@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "io.github.chindeaytb"
-version = "1.0.3"
+version = "1.0.4"
 
 repositories {
     mavenCentral()
@@ -62,7 +62,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "io.github.chindeaytb"
             artifactId = "modrinthautoupdater"
-            version = "1.0.3"
+            version = "1.0.4"
 
             from(components["java"])
         }
