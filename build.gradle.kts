@@ -1,6 +1,7 @@
 plugins {
     java
     application
+    `maven-publish`
 }
 
 group = "io.github.chindeaytb"
@@ -34,7 +35,7 @@ val updaterJar = tasks.register<Jar>("updaterJar") {
     from(sourceSets.main.get().output)
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
     manifest {
-        attributes("Main-Class" to "io.github.chindeaytb.updater.UpdaterMain")
+        attributes("Main-Class" to "io.github.chindeaytb.UpdaterMain")
     }
 }
 
@@ -55,3 +56,16 @@ tasks.jar {
         into("updater")
     }
 }
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "io.github.chindeaytb"
+            artifactId = "modrinthautoupdater"
+            version = "1.0.3"
+
+            from(components["java"])
+        }
+    }
+}
+
