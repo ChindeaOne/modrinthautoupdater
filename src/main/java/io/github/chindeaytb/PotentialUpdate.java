@@ -40,7 +40,7 @@ public class PotentialUpdate {
     }
 
     private void extractUpdaterJar() throws IOException {
-        File updaterFile = new File(ModsDirectory.MOD_DIR, "updater.jar");
+        File updaterFile = new File(ModsDirectory.AUTO_UPDATE_DIR, "updater.jar");
 
         try (InputStream in = getClass().getResourceAsStream("/updater.jar");
              FileOutputStream out = new FileOutputStream(updaterFile)) {
