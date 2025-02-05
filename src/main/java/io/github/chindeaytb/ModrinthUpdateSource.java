@@ -53,7 +53,6 @@ public class ModrinthUpdateSource {
                         JsonObject versionObj = version.getAsJsonObject();
                         boolean isStable = !versionObj.get("version_type").getAsString().equalsIgnoreCase("beta");
 
-                        // Decide based on user preference (1 = stable, 2 = any version)
                         if ((updatePreference == 1 && isStable) || updatePreference == 2) {
                             selectedVersion = versionObj;
                             break;
@@ -85,7 +84,7 @@ public class ModrinthUpdateSource {
         File configFile = new File(CONFIG_DIR, CONFIG_FILE);
         if (!configFile.exists()) {
             System.out.println("Config file not found! Defaulting to stable updates.");
-            return 1; // Default to stable updates if no config is found
+            return 1;
         }
 
         try (FileReader reader = new FileReader(configFile)) {
@@ -94,7 +93,7 @@ public class ModrinthUpdateSource {
             return json.getAsJsonObject("about").get("update").getAsInt();
         } catch (Exception e) {
             e.printStackTrace();
-            return 1; // Default to stable updates in case of an error
+            return 1;
         }
     }
 }

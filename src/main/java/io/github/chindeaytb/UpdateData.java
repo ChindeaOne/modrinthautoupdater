@@ -1,17 +1,17 @@
 package io.github.chindeaytb;
 
 public class UpdateData {
-    private final String version;
+    private static  String version;
     private final String downloadUrl;
     private final String filename;
 
     public UpdateData(String version, String downloadUrl, String filename) {
-        this.version = version;
+        UpdateData.version = version;
         this.downloadUrl = downloadUrl;
         this.filename = filename;
     }
 
-    public String getVersion() {
+    static public String getVersion() {
         return version;
     }
 

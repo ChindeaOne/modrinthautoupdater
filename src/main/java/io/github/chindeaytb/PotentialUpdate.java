@@ -5,18 +5,18 @@ import java.net.URL;
 
 public class PotentialUpdate {
     private final UpdateData update;
-    private final File modFileDirectory;
 
-    public PotentialUpdate(UpdateData update, File modFileDirectory) {
+    public PotentialUpdate(UpdateData update) {
         this.update = update;
-        this.modFileDirectory = modFileDirectory;
     }
 
     public void launchUpdate() {
         try {
             File downloadedJar = downloadUpdate();
-            extractUpdaterJar(); // <-- Extract updater.jar first
-            runUpdater(downloadedJar);
+            extractUpdaterJar();
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                runUpdater(downloadedJar);
+            }));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -24,7 +24,7 @@ public class PotentialUpdate {
 
     private File downloadUpdate() throws IOException {
         System.out.println("Downloading update: " + update.getDownloadUrl());
-        File tempFile = new File(modFileDirectory, update.getFilename());
+        File tempFile = new File(ModsDirectory.MOD_DIR, update.getFilename());
 
         try (InputStream in = new URL(update.getDownloadUrl()).openStream();
              FileOutputStream out = new FileOutputStream(tempFile)) {
@@ -40,9 +40,9 @@ public class PotentialUpdate {
     }
 
     private void extractUpdaterJar() throws IOException {
-        File updaterFile = new File(modFileDirectory, "updater.jar");
+        File updaterFile = new File(ModsDirectory.MOD_DIR, "updater.jar");
 
-        try (InputStream in = getClass().getResourceAsStream("/updater/updater.jar");
+        try (InputStream in = getClass().getResourceAsStream("/updater.jar");
              FileOutputStream out = new FileOutputStream(updaterFile)) {
 
             if (in == null) {
@@ -61,7 +61,7 @@ public class PotentialUpdate {
 
     private void runUpdater(File newModFile) {
         try {
-            File updaterJar = new File(modFileDirectory, "updater.jar");
+            File updaterJar = new File(ModsDirectory.MOD_DIR, "updater.jar");
             if (!updaterJar.exists()) {
                 System.out.println("Updater not found!");
                 return;
@@ -69,7 +69,7 @@ public class PotentialUpdate {
 
             ProcessBuilder pb = new ProcessBuilder(
                     "java", "-jar", updaterJar.getAbsolutePath(),
-                    modFileDirectory.getAbsolutePath(),
+                    ModsDirectory.MOD_DIR,
                     newModFile.getAbsolutePath()
             );
 
@@ -77,7 +77,7 @@ public class PotentialUpdate {
             pb.start();
 
             System.out.println("Updater scheduled. Exiting main application...");
-            System.exit(0);  // Exit to allow updater to run
+            System.exit(0);
         } catch (Exception e) {
             e.printStackTrace();
         }
