@@ -4,7 +4,7 @@ plugins {
     `maven-publish`
 }
 
-group = "io.github.chindeaytb"
+group = "io.github.ChindeaYTB"
 version = "1.0.4"
 
 repositories {
@@ -60,7 +60,7 @@ tasks.jar {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            groupId = "io.github.chindeaytb"
+            groupId = "io.github.ChindeaYTB"
             artifactId = "modrinthautoupdater"
             version = "1.0.4"
 
