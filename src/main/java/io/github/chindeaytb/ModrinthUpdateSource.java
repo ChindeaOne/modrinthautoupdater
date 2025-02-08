@@ -12,17 +12,6 @@ import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 
 public class ModrinthUpdateSource {
-    private static final String CONFIG_DIR;
-    private static final String CONFIG_FILE = "config.json";
-
-    static {
-        String os = System.getProperty("os.name").toLowerCase(Locale.ROOT);
-        if (os.contains("win")) {
-            CONFIG_DIR = System.getenv("APPDATA") + File.separator + ".minecraft" + File.separator + "config" + File.separator + "sct";
-        } else {
-            CONFIG_DIR = System.getProperty("user.home") + File.separator + ".minecraft" + File.separator + "config" + File.separator + "sct";
-        }
-    }
 
     private final String projectId;
 
@@ -32,7 +21,15 @@ public class ModrinthUpdateSource {
 
     public CompletableFuture<UpdateData> checkUpdate() {
         return CompletableFuture.supplyAsync(() -> {
-            int updatePreference = getUpdateValue();
+            int updatePreference = 0;
+            String currentVersion = UpdateContext.getCurrentVersion();
+
+            if (UpdateContext.getStream().equalsIgnoreCase("beta")) {
+                updatePreference = 2;
+            } else if (UpdateContext.getStream().equalsIgnoreCase("release")) {
+                updatePreference = 1;
+            }
+
             try {
                 URL url = new URL("https://api.modrinth.com/v2/project/" + projectId + "/version");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -41,19 +38,22 @@ public class ModrinthUpdateSource {
 
                 if (connection.getResponseCode() == 200) {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
                     JsonParser parser = new JsonParser();
                     JsonArray versions = parser.parse(reader).getAsJsonArray();
-
                     reader.close();
 
                     JsonObject selectedVersion = null;
 
                     for (JsonElement version : versions) {
                         JsonObject versionObj = version.getAsJsonObject();
+                        String versionNumber = versionObj.get("version_number").getAsString();
                         boolean isStable = !versionObj.get("version_type").getAsString().equalsIgnoreCase("beta");
 
                         if ((updatePreference == 1 && isStable) || updatePreference == 2) {
+                            if (currentVersion.equals(versionNumber)) {
+                                System.out.println("No update needed, latest version already installed: " + currentVersion);
+                                return null;
+                            }
                             selectedVersion = versionObj;
                             break;
                         }
@@ -78,22 +78,5 @@ public class ModrinthUpdateSource {
             }
             return null;
         });
-    }
-
-    private static int getUpdateValue() {
-        File configFile = new File(CONFIG_DIR, CONFIG_FILE);
-        if (!configFile.exists()) {
-            System.out.println("Config file not found! Defaulting to stable updates.");
-            return 1;
-        }
-
-        try (FileReader reader = new FileReader(configFile)) {
-            JsonParser parser = new JsonParser();
-            JsonObject json = parser.parse(reader).getAsJsonObject();
-            return json.getAsJsonObject("about").get("update").getAsInt();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 1;
-        }
     }
 }

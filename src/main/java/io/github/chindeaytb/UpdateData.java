@@ -1,25 +1,22 @@
 package io.github.chindeaytb;
 
+import lombok.Value;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class UpdateData {
-    private static  String version;
-    private final String downloadUrl;
-    private final String filename;
+    String version;
+    String downloadUrl;
+    String filename;
 
     public UpdateData(String version, String downloadUrl, String filename) {
-        UpdateData.version = version;
+        this.version = version;
         this.downloadUrl = downloadUrl;
         this.filename = filename;
     }
 
-    static public String getVersion() {
-        return version;
-    }
-
-    public String getDownloadUrl() {
-        return downloadUrl;
-    }
-
-    public String getFilename() {
-        return filename;
+    public URL getDownloadUrl() throws MalformedURLException {
+        return new URL(downloadUrl);
     }
 }

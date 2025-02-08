@@ -2,57 +2,51 @@ plugins {
     java
     application
     `maven-publish`
+    id("io.freefair.lombok") version "8.12.1"
 }
 
 group = "io.github.ChindeaYTB"
-version = "1.0.6"
+version = "1.0.7"
 
-repositories {
-    mavenCentral()
+allprojects {
+    apply(plugin = "java")
+    tasks.withType(JavaCompile::class) {
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
+    }
+    repositories {
+        mavenCentral()
+    }
 }
 
 dependencies {
     implementation("com.google.code.gson:gson:2.2.4")
 }
 
-application {
-    mainClass.set("io.github.chindeaytb.Main")
-}
-
-tasks.jar {
-    manifest {
-        attributes(
-            "Main-Class" to "io.github.chindeaytb.Main"
-        )
-    }
-    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
-}
-
-val updaterJar = tasks.register<Jar>("updaterJar") {
-    archiveFileName.set("updater.jar")
-    destinationDirectory.set(layout.buildDirectory.dir("libs"))
-    from(sourceSets.main.get().output)
-    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
-    manifest {
-        attributes("Main-Class" to "io.github.chindeaytb.UpdaterMain")
-    }
-}
-
-tasks.build {
-    dependsOn(updaterJar)
-}
-
-tasks.jar {
-    dependsOn(updaterJar)
-    doFirst {
-        val updaterJarFile = updaterJar.get().archiveFile.get().asFile
-        if (!updaterJarFile.exists()) {
-            throw GradleException("Updater JAR was not built successfully.")
+project(":updater") {
+    tasks.jar {
+        archiveFileName.set("updater.jar")
+        manifest {
+            attributes(
+                mapOf(
+                    "Main-Class" to "io.github.chindeaytb.updatermain.UpdaterMain"
+                )
+            )
         }
     }
-    from(updaterJar.get().outputs.files) {
-        into("updater")
-    }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+tasks.javadoc {
+    isFailOnError = false
+}
+
+tasks.processResources {
+    val updateJar = tasks.getByPath(":updater:jar")
+    from(updateJar.outputs)
 }
 
 publishing {
@@ -60,7 +54,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "io.github.ChindeaYTB"
             artifactId = "modrinthautoupdater"
-            version = "1.0.6"
+            version = "1.0.7"
 
             from(components["java"])
         }
