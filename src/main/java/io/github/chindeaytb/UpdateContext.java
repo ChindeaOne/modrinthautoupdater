@@ -21,14 +21,18 @@ public class UpdateContext {
 
     public UpdateContext(String projectId, String currentVersion, String stream, String identifier, UpdateTarget target) {
         this.source = new ModrinthUpdateSource(projectId);
-        this.currentVersion = currentVersion;
-        this.stream = stream;
+        UpdateContext.currentVersion = currentVersion;
+        UpdateContext.stream = stream;
         this.identifier = identifier;
         this.target = target;
     }
 
     public static String getStream() {
         return stream;
+    }
+
+    public void setStream(String stream) {
+        UpdateContext.stream = stream;
     }
 
     public String getIdentifier() { return identifier;}
