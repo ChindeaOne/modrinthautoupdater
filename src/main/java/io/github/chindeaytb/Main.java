@@ -11,6 +11,6 @@ public class Main {
         );
         updater.cleanup();
 
-        updater.checkUpdate().thenCompose(PotentialUpdate::launchUpdate).join();
+        updater.checkUpdate().thenCompose(UpdateSetup::launchUpdate).join();
     }
 }

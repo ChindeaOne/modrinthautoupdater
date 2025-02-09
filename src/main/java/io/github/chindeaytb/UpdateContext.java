@@ -57,9 +57,9 @@ public class UpdateContext {
         }
     }
 
-    public CompletableFuture<PotentialUpdate> checkUpdate() {
+    public CompletableFuture<UpdateSetup> checkUpdate() {
         return source.checkUpdate()
-                .thenApply(it -> new PotentialUpdate(it, this));
+                .thenApply(it -> new UpdateSetup(it, this));
     }
 }
 

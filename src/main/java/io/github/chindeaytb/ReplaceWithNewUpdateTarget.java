@@ -11,10 +11,10 @@ public final class ReplaceWithNewUpdateTarget implements UpdateTarget {
     private final File targetFile;
 
     @Override
-    public List<UpdateAction> generateUpdateActions(PotentialUpdate update) {
+    public List<UpdateAction> createActions(UpdateSetup update) {
         return Arrays.asList(
                 new UpdateAction.DeleteFile(targetFile),
-                new UpdateAction.MoveDownloadedFile(update.getTempJarFile(), new File(targetFile.getParentFile(), update.getFileName()))
+                new UpdateAction.MoveDownloadedFile(update.getTempJarFile(), new File(targetFile.getParentFile(), update.getUpdate().filename))
         );
     }
 

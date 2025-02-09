@@ -18,7 +18,7 @@ public class ModrinthUpdateSource {
         this.projectId = projectId;
     }
 
-    public CompletableFuture<UpdatePackage> checkUpdate() {
+    public CompletableFuture<ModrinthData> checkUpdate() {
         return CompletableFuture.supplyAsync(() -> {
             int updatePreference = 0;
             String currentVersion = UpdateContext.getCurrentVersion();
@@ -63,7 +63,7 @@ public class ModrinthUpdateSource {
                         for (JsonElement file : files) {
                             JsonObject fileObj = file.getAsJsonObject();
                             if (fileObj.get("primary").getAsBoolean()) {
-                                return new UpdatePackage(
+                                return new ModrinthData(
                                         selectedVersion.get("version_number").getAsString(),
                                         fileObj.get("url").getAsString(),
                                         fileObj.get("filename").getAsString()
