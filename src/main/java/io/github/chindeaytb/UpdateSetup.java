@@ -77,7 +77,7 @@ public class UpdateSetup {
         }
     }
 
-    private void executeUpdater() {
+    public void executeUpdater() {
         ShutdownHookManager.setExitHook(
                 context.getIdentifier(),
                 updateUUID,
