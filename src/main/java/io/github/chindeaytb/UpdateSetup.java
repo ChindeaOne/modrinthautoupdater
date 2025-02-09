@@ -38,12 +38,16 @@ public class UpdateSetup {
     }
 
     public void executeUpdate() throws IOException {
-        extractUpdater();
-        downloadUpdate();
-        executePreparedUpdate();
+        prepareUpdate();
+        executeUpdater();
     }
 
-    private void extractUpdater() throws IOException {
+    public void prepareUpdate() throws IOException {
+        extractUpdater();
+        downloadUpdate();
+    }
+
+    public void extractUpdater() throws IOException {
         try (val from = getClass().getResourceAsStream("/updater.jar");
              val to = new FileOutputStream(getFile("updater.jar"))) {
             byte[] buffer = new byte[4096];
@@ -67,7 +71,7 @@ public class UpdateSetup {
         }
     }
 
-    private void executePreparedUpdate() {
+    private void executeUpdater() {
         ShutdownHookManager.setExitHook(
                 context.getIdentifier(),
                 updateUUID,
