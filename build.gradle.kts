@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022 Linnea Gräf.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are permitted
+ * under the BSD-2-Clause license. See LICENSE file for details.
+ */
+
 plugins {
     java
     application
@@ -6,7 +13,7 @@ plugins {
 }
 
 group = "io.github.ChindeaYTB"
-version = "1.0.7"
+version = "1.1.0"
 
 allprojects {
     apply(plugin = "java")
@@ -54,7 +61,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "io.github.ChindeaYTB"
             artifactId = "modrinthautoupdater"
-            version = "1.0.7"
+            version = "1.1.0"
 
             from(components["java"])
         }

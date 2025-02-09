@@ -1,3 +1,9 @@
+/*
+ * Based on libautoupdate by Linnea Gräf (c) 2022.
+ * Modified by Chindea Eduard (c) 2025.
+ *
+ * Licensed under BSD-2-Clause. See LICENSE file for details.
+ */
 package io.github.chindeaytb;
 
 import lombok.Getter;
