@@ -1,16 +1,20 @@
 package io.github.chindeaytb.updatermain;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 public class UpdaterMain {
 
     public static void main(String[] args) throws InterruptedException, IOException {
-
-        File libautoupdate_folder = new File(".autoupdates");
+        File libautoupdate_folder = new File(".autoupdates", "postexit.log");
         libautoupdate_folder.getParentFile().mkdirs();
+        PrintStream printStream = new PrintStream(new FileOutputStream(libautoupdate_folder, true));
+        System.setErr(printStream);
+        System.setOut(printStream);
         for (int i = 2; i < args.length; i++) {
             switch (args[i].intern()) {
                 case "delete":
@@ -22,6 +26,7 @@ public class UpdaterMain {
                 case "move":
                     File from = unlockedFile(args[++i]);
                     File to = unlockedFile(args[++i]);
+                    System.out.println("Moving " + from + " to " + to);
                     Files.move(from.toPath(), to.toPath(), StandardCopyOption.REPLACE_EXISTING);
                     break;
                 default:

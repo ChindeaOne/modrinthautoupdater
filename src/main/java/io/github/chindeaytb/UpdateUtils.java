@@ -1,7 +1,6 @@
 package io.github.chindeaytb;
 
 import lombok.val;
-import lombok.var;
 
 import java.io.File;
 import java.net.URI;

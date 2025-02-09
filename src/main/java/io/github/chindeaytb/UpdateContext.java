@@ -1,5 +1,6 @@
 package io.github.chindeaytb;
 
+import lombok.Getter;
 import lombok.Value;
 
 import java.io.File;
@@ -14,8 +15,11 @@ import java.util.concurrent.CompletableFuture;
 @Value
 public class UpdateContext {
     ModrinthUpdateSource source;
+    @Getter
     static String currentVersion;
+    @Getter
     static String stream;
+    @Getter
     String identifier;
     UpdateTarget target;
 
@@ -27,17 +31,9 @@ public class UpdateContext {
         this.target = target;
     }
 
-    public static String getStream() {
-        return stream;
-    }
-
     public void setStream(String stream) {
         UpdateContext.stream = stream;
     }
-
-    public String getIdentifier() { return identifier;}
-
-    public static String getCurrentVersion() {return currentVersion;}
 
     public void cleanup() {
         File file = new File(".autoupdates", identifier).getAbsoluteFile();

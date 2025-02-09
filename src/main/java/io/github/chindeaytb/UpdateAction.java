@@ -29,14 +29,14 @@ public abstract class UpdateAction {
     @Value
     @EqualsAndHashCode(callSuper = false)
     public static class MoveDownloadedFile extends UpdateAction {
-        @NonNull File whereFrom;
-        @NonNull File whereTo;
+        @NonNull File sourceFile;
+        @NonNull File destinationFile;
 
         @Override
         public void encode(List<String> arguments) {
             arguments.add("move");
-            arguments.add(whereFrom.getAbsolutePath());
-            arguments.add(whereTo.getAbsolutePath());
+            arguments.add(sourceFile.getAbsolutePath());
+            arguments.add(destinationFile.getAbsolutePath());
         }
     }
 }

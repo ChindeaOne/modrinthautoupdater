@@ -4,23 +4,22 @@ import lombok.Value;
 import lombok.val;
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
 @Value
 public class PotentialUpdate {
-    UpdateData update;
+    UpdatePackage update;
     UpdateContext context;
     UUID updateUUID = UUID.randomUUID();
 
-    public PotentialUpdate(UpdateData update, UpdateContext context) {
+    public PotentialUpdate(UpdatePackage update, UpdateContext context) {
         this.update = update;
         this.context = context;
     }
 
-    public File temporaryJarStorage() {
+    public File getTempJarFile() {
         return getFile("temp.jar");
     }
 
@@ -29,9 +28,8 @@ public class PotentialUpdate {
         return new File(getUpdateDirectory(), name);
     }
 
-    public String getFileName() throws MalformedURLException {
-        val split = update.getDownloadUrl().getPath().split("/");
-        return split[split.length - 1];
+    public String getFileName() {
+        return update.filename;
     }
 
     public File getUpdateDirectory() {
@@ -72,7 +70,7 @@ public class PotentialUpdate {
     }
 
     public void executePreparedUpdate() {
-        ExitHookInvoker.setExitHook(
+        ShutdownHookManager.setExitHook(
                 getContext().getIdentifier(),
                 getUpdateUUID(),
                 getFile("updater.jar"),
@@ -83,9 +81,9 @@ public class PotentialUpdate {
         try {
             val conn = update.getDownloadUrl().openConnection();
             val from = conn.getInputStream();
-            val to = new FileOutputStream(temporaryJarStorage());
+            val to = new FileOutputStream(getTempJarFile());
 
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[4096];
             int bytesRead;
             while ((bytesRead = from.read(buffer)) != -1) {
                 to.write(buffer, 0, bytesRead);

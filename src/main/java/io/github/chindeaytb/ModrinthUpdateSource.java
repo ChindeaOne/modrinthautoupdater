@@ -8,7 +8,6 @@ import com.google.gson.JsonParser;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 
 public class ModrinthUpdateSource {
@@ -19,7 +18,7 @@ public class ModrinthUpdateSource {
         this.projectId = projectId;
     }
 
-    public CompletableFuture<UpdateData> checkUpdate() {
+    public CompletableFuture<UpdatePackage> checkUpdate() {
         return CompletableFuture.supplyAsync(() -> {
             int updatePreference = 0;
             String currentVersion = UpdateContext.getCurrentVersion();
@@ -64,7 +63,7 @@ public class ModrinthUpdateSource {
                         for (JsonElement file : files) {
                             JsonObject fileObj = file.getAsJsonObject();
                             if (fileObj.get("primary").getAsBoolean()) {
-                                return new UpdateData(
+                                return new UpdatePackage(
                                         selectedVersion.get("version_number").getAsString(),
                                         fileObj.get("url").getAsString(),
                                         fileObj.get("filename").getAsString()
