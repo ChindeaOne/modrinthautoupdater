@@ -41,12 +41,25 @@ public class ModrinthUpdateSource {
                     JsonArray versions = parser.parse(reader).getAsJsonArray();
                     reader.close();
 
+                    String targetMcVersion = UpdateContext.getMinecraftVersion();
                     JsonObject selectedVersion = null;
+                    String selectedGameVersion = null;
 
                     for (JsonElement version : versions) {
                         JsonObject versionObj = version.getAsJsonObject();
                         String versionNumber = versionObj.get("version_number").getAsString();
                         boolean isStable = !versionObj.get("version_type").getAsString().equalsIgnoreCase("beta");
+
+                        // Check if this version supports the target Minecraft version
+                        JsonArray gameVersions = versionObj.getAsJsonArray("game_versions");
+                        boolean supportsTargetVersion = false;
+                        for (JsonElement gv : gameVersions) {
+                            if (gv.getAsString().equals(targetMcVersion)) {
+                                supportsTargetVersion = true;
+                                break;
+                            }
+                        }
+                        if (!supportsTargetVersion) continue;
 
                         if ((updatePreference == 1 && isStable) || updatePreference == 2) {
                             if (currentVersion.equals(versionNumber)) {
@@ -54,6 +67,7 @@ public class ModrinthUpdateSource {
                                 return null;
                             }
                             selectedVersion = versionObj;
+                            selectedGameVersion = targetMcVersion;
                             break;
                         }
                     }
@@ -64,6 +78,7 @@ public class ModrinthUpdateSource {
                             JsonObject fileObj = file.getAsJsonObject();
                             if (fileObj.get("primary").getAsBoolean()) {
                                 return new ModrinthData(
+                                        selectedGameVersion,
                                         selectedVersion.get("version_number").getAsString(),
                                         fileObj.get("url").getAsString(),
                                         fileObj.get("filename").getAsString()

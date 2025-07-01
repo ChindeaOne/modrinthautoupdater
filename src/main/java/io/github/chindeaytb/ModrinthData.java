@@ -10,11 +10,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class ModrinthData {
+    String minecraftVersion;
     String version;
     String downloadUrl;
     String filename;
 
-    public ModrinthData(String version, String downloadUrl, String filename) {
+    public ModrinthData(String minecraftVersion,String version, String downloadUrl, String filename) {
+        this.minecraftVersion = minecraftVersion;
         this.version = version;
         this.downloadUrl = downloadUrl;
         this.filename = filename;

@@ -22,6 +22,8 @@ import java.util.concurrent.CompletableFuture;
 public class UpdateContext {
     ModrinthUpdateSource source;
     @Getter
+    static String minecraftVersion;
+    @Getter
     static String currentVersion;
     @Getter
     static String stream;
@@ -29,8 +31,9 @@ public class UpdateContext {
     String identifier;
     UpdateTarget target;
 
-    public UpdateContext(String projectId, String currentVersion, String stream, String identifier, UpdateTarget target) {
+    public UpdateContext(String projectId, String minecraftVersion ,String currentVersion, String stream, String identifier, UpdateTarget target) {
         this.source = new ModrinthUpdateSource(projectId);
+        UpdateContext.minecraftVersion = minecraftVersion;
         UpdateContext.currentVersion = currentVersion;
         UpdateContext.stream = stream;
         this.identifier = identifier;

@@ -10,6 +10,7 @@ public class Main {
     public static void main(String[] args) {
         UpdateContext updater = new UpdateContext(
                 "sct",
+                "1.8.9",
                 "1.1.0",
                 "beta",
                 "SkyblockCollectionTracker",
