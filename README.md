@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    shadowImpl("com.github.ChindeaOne:modrinthautoupdater:1.1.2")
+    shadowImpl("com.github.ChindeaOne:modrinthautoupdater:1.1.3")
 }
 ```
 
