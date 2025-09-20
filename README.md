@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    shadowImpl("com.github.ChindeaYTB:modrinthautoupdater:1.1.1")
+    shadowImpl("com.github.ChindeaOne:modrinthautoupdater:1.1.2")
 }
 ```
 
@@ -31,6 +31,7 @@ To integrate auto-updates into your application, instantiate and store an `Updat
 ```java
 UpdateContext context =new UpdateContext(
         "your-modrinth-project-id",
+        "minecraft_version_used" // 1.8.9 or 1.21.5
         "1.0.0", // Current version
         "release", // Stream can be either "release" or "beta"
         "your-modid",
@@ -40,6 +41,7 @@ UpdateContext context =new UpdateContext(
 
 You need to provide:
 - The project ID for identifying the update source.
+- The Minecraft version you are playing on.
 - The current application version.
 - The update stream ("release" or "beta").
 - A unique identifier for the application/mod.
