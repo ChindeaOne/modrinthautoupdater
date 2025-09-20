@@ -1,4 +1,4 @@
-package io.github.chindeaytb;
+package io.github.chindeaone;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

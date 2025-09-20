@@ -4,7 +4,7 @@
  *
  * Licensed under BSD-2-Clause. See LICENSE file for details.
  */
-package io.github.chindeaytb;
+package io.github.chindeaone;
 
 import java.net.MalformedURLException;
 import java.net.URL;
