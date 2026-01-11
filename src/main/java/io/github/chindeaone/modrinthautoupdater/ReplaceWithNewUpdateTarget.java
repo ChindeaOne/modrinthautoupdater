@@ -4,7 +4,7 @@
  *
  * Licensed under BSD-2-Clause. See LICENSE file for details.
  */
-package io.github.chindeaone;
+package io.github.chindeaone.modrinthautoupdater;
 
 import lombok.Getter;
 

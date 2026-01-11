@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "io.github.ChindeaOne"
-version = "1.1.4"
+version = "1.1.5"
 
 allprojects {
     apply(plugin = "java")
@@ -36,7 +36,7 @@ project(":updater") {
         manifest {
             attributes(
                 mapOf(
-                    "Main-Class" to "io.github.chindeaone.updatermain.UpdaterMain"
+                    "Main-Class" to "io.github.chindeaone.modrinthautoupdater.updater.UpdaterMain"
                 )
             )
         }
@@ -61,7 +61,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "io.github.ChindeaOne"
             artifactId = "modrinthautoupdater"
-            version = "1.1.4"
+            version = "1.1.5"
 
             from(components["java"])
         }

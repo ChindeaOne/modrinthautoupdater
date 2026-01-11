@@ -1,4 +1,4 @@
-package io.github.chindeaone;
+package io.github.chindeaone.modrinthautoupdater;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
