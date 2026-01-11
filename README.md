@@ -31,7 +31,7 @@ To integrate auto-updates into your application, instantiate and store an `Updat
 ```java
 UpdateContext context =new UpdateContext(
         "your-modrinth-project-id",
-        "minecraft_version_used" // 1.8.9 or 1.21
+        "minecraft_version_used", // 1.8.9 or 1.21
         "1.0.0", // Current version
         "release", // Stream can be either "release" or "beta"
         "your-modid",
