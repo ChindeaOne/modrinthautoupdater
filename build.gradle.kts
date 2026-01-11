@@ -12,8 +12,8 @@ plugins {
     id("io.freefair.lombok") version "8.12.1"
 }
 
-group = "io.github.ChindeaYTB"
-version = "1.1.2"
+group = "io.github.ChindeaOne"
+version = "1.1.4"
 
 allprojects {
     apply(plugin = "java")
@@ -36,7 +36,7 @@ project(":updater") {
         manifest {
             attributes(
                 mapOf(
-                    "Main-Class" to "io.github.chindeaytb.updatermain.UpdaterMain"
+                    "Main-Class" to "io.github.chindeaone.updatermain.UpdaterMain"
                 )
             )
         }
@@ -59,12 +59,11 @@ tasks.processResources {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            groupId = "io.github.ChindeaYTB"
+            groupId = "io.github.ChindeaOne"
             artifactId = "modrinthautoupdater"
-            version = "1.1.1"
+            version = "1.1.4"
 
             from(components["java"])
         }
     }
 }
-

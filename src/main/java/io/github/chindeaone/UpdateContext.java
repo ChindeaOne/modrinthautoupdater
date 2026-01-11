@@ -68,7 +68,6 @@ public class UpdateContext {
 
     public CompletableFuture<UpdateSetup> checkUpdate() {
         return source.checkUpdate()
-                .thenApply(it -> new UpdateSetup(it, this));
+                .thenApply(it -> it == null ? null : new UpdateSetup(it, this));
     }
 }
-
